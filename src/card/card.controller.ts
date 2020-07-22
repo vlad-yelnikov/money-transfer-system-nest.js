@@ -1,7 +1,7 @@
 import { Controller } from '@nestjs/common';
 import { Crud, CrudController } from '@nestjsx/crud';
-import { Card } from 'src/card/card.entity';
-import { CardService } from 'src/card/card.service';
+import { Card } from './card.entity';
+import { CardService } from './card.service';
 
 @Crud({
   model: {
