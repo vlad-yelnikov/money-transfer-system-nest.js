@@ -5,7 +5,7 @@ import {
   JoinColumn,
   ManyToOne,
 } from 'typeorm';
-import { User } from '../modules/user/entities/user.entity';
+import { User } from '../../modules/user/entities/user.entity';
 
 @Entity({ name: 'cards' })
 export class Card {
@@ -13,7 +13,7 @@ export class Card {
   id: number;
 
   @Column({ default: 0 })
-  debit: string;
+  debit: number;
 
   @Column({ default: 0 })
   credit: number;
