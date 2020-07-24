@@ -21,7 +21,7 @@ export class Card {
   @Column({ name: 'credit_limit', default: 0 })
   creditLimit: number;
 
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, { nullable: false })
   @JoinColumn({ name: 'user_id' })
   user: User;
 }
