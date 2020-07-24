@@ -7,6 +7,13 @@ import { CardService } from '../services/card.service';
   model: {
     type: Card,
   },
+  query: {
+    join: {
+      card: {
+        eager: true,
+      },
+    },
+  },
 })
 @Controller('/api/cards')
 export class CardController implements CrudController<Card> {
@@ -15,24 +22,24 @@ export class CardController implements CrudController<Card> {
   @Patch('/increase/:id')
   public async increase(
     @Param('id') id: string,
-    @Body('value') value: number,
+    @Body('amount') amount: number,
   ): Promise<void> {
-    await this.service.increase(id, value);
+    await this.service.increase(id, amount);
   }
 
   @Patch('/decrease/:id')
   public async decrease(
     @Param('id') id: string,
-    @Body('value') value: number,
+    @Body('amount') amount: number,
   ): Promise<void> {
-    await this.service.decrease(id, value);
+    await this.service.decrease(id, amount);
   }
 
   @Patch('/setLimit/:id')
   public async setLimit(
     @Param('id') id: string,
-    @Body('value') value: number,
+    @Body('amount') amount: number,
   ): Promise<void> {
-    await this.service.setLimit(id, value);
+    await this.service.setLimit(id, amount);
   }
 }
