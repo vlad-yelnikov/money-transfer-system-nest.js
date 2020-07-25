@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../entities/user.entity';
+import _ from 'lodash';
 
 @Injectable()
 export class UserService {
@@ -10,8 +11,15 @@ export class UserService {
     private userRepository: Repository<User>,
   ) {}
 
-  findAll(): Promise<User[]> {
-    return this.userRepository.find();
+  findAll(query): Promise<User[]> {
+    const { take, name, order, sort } = query;
+    console.log(query, take, name);
+    const sortOrder = _.pickBy({ [sort]: order }, _.identity);
+    console.log(sortOrder);
+    return this.userRepository.find({
+      take: take,
+      order: sortOrder,
+    });
   }
 
   findOne(id: string): Promise<User> {
@@ -23,7 +31,6 @@ export class UserService {
   }
 
   create(user: User): Promise<User> {
-    delete user.id;
     return this.userRepository.save(user);
   }
 

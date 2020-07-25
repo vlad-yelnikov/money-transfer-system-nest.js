@@ -7,6 +7,7 @@ import {
   Body,
   Put,
   NotFoundException,
+  Query,
 } from '@nestjs/common';
 import { User } from '../entities/user.entity';
 import { UserService } from '../services/user.service';
@@ -17,8 +18,8 @@ export class userController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
-  getAllAction(): Promise<User[]> {
-    return this.userService.findAll();
+  getAllAction(@Query() query): Promise<User[]> {
+    return this.userService.findAll(query);
   }
 
   @Get(':id')
