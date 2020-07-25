@@ -21,7 +21,7 @@ export class CardController implements CrudController<Card> {
 
   @Patch('/increase/:id')
   public async increase(
-    @Param('id', ParseIntPipe) id: string,
+    @Param('id', ParseIntPipe) id: number,
     @Body('amount', ParseIntPipe) amount: number,
   ): Promise<void> {
     await this.service.increase(id, amount);
@@ -29,7 +29,7 @@ export class CardController implements CrudController<Card> {
 
   @Patch('/decrease/:id')
   public async decrease(
-    @Param('id', ParseIntPipe) id: string,
+    @Param('id', ParseIntPipe) id: number,
     @Body('amount', ParseIntPipe) amount: number,
   ): Promise<void> {
     await this.service.decrease(id, amount);
@@ -37,7 +37,7 @@ export class CardController implements CrudController<Card> {
 
   @Patch('/setLimit/:id')
   public async setLimit(
-    @Param('id', ParseIntPipe) id: string,
+    @Param('id', ParseIntPipe) id: number,
     @Body('amount', ParseIntPipe) amount: number,
   ): Promise<void> {
     await this.service.setLimit(id, amount);
