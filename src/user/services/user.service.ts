@@ -11,14 +11,20 @@ export class UserService {
     private userRepository: Repository<User>,
   ) {}
 
-  findAll(query): Promise<User[]> {
-    const { take, name, order, sort } = query;
+  findAll(query: any): Promise<User[]> {
+    const { take, name, order, sort, skip } = query;
     console.log(query, take, name);
-    const sortOrder = _.pickBy({ [sort]: order }, _.identity);
-    console.log(sortOrder);
+    let sortOrder = { [sort]: order };
+    if (sort === undefined || order === undefined) {
+      sortOrder = {};
+    }
     return this.userRepository.find({
+      where: {
+        name: name,
+      },
       take: take,
       order: sortOrder,
+      skip: skip,
     });
   }
 

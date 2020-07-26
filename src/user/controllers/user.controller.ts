@@ -18,7 +18,7 @@ export class userController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
-  getAllAction(@Query() query): Promise<User[]> {
+  getAllAction(@Query() query: any): Promise<User[]> {
     return this.userService.findAll(query);
   }
 
