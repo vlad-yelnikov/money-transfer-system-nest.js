@@ -11,20 +11,22 @@ export class UserService {
     private userRepository: Repository<User>,
   ) {}
 
-  findAll(query: any): Promise<User[]> {
-    const { take, name, order, sort, skip } = query;
-    console.log(query, take, name);
-    let sortOrder = { [sort]: order };
-    if (sort === undefined || order === undefined) {
-      sortOrder = {};
+  findAll(query: QueryUserDTO): Promise<User[]> {
+    const { take, order, sort, page, size, name } = query;
+    let sortOrder = {};
+    let filter = {};
+    if (sort) {
+      sortOrder = { [sort]: order };
     }
+    if (name) {
+      filter = { name: name };
+    }
+    const skip = (page - 1) * size;
     return this.userRepository.find({
-      where: {
-        name: name,
-      },
-      take: take,
+      where: filter,
+      take,
       order: sortOrder,
-      skip: skip,
+      skip,
     });
   }
 
