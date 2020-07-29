@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
-import { Transaction } from '../entities/transaction.entity';
+import { Transaction } from './transaction.entity';
 import { Repository, getConnection } from 'typeorm';
-import { CardService } from 'src/card/services/card.service';
+import { CardService } from 'src/card/card.service';
+import { CreateTransactionDto } from './create.transaction.dto';
 
 @Injectable()
 export class TransactionService extends TypeOrmCrudService<Transaction> {
@@ -15,7 +16,7 @@ export class TransactionService extends TypeOrmCrudService<Transaction> {
     super(transactionRepository);
   }
 
-  public async create(body: Transaction): Promise<void> {
+  public async create(body: CreateTransactionDto): Promise<void> {
     await getConnection().transaction(async () => {
       await this.cardService.decrease(body.sender, body.amount);
       await this.cardService.increase(body.receiver, body.amount);

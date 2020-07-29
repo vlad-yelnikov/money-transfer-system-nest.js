@@ -9,16 +9,19 @@ import {
   NotFoundException,
   Query,
 } from '@nestjs/common';
-import { User } from '../entities/user.entity';
-import { UserService } from '../services/user.service';
-import { CreateUserDto, UpdateUserDto } from './dto';
+import { User } from './user.entity';
+import { UserService } from './user.service';
+import { UserDto } from './dto/user.dto';
+import { QueryUserDTO } from './dto/query.user.dto';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('users')
 @Controller('/api/users')
 export class userController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
-  getAllAction(@Query() query: any): Promise<User[]> {
+  getAllAction(@Query() query: QueryUserDTO): Promise<User[]> {
     return this.userService.findAll(query);
   }
 
@@ -27,21 +30,23 @@ export class userController {
     return this.userService.findOne(id);
   }
 
+  @ApiBody({ type: UserDto })
   @Post()
-  createAction(@Body() createDto: CreateUserDto): Promise<User> {
+  createAction(@Body() createDto: UserDto): Promise<User> {
     const user = new User();
     user.name = createDto.name;
     return this.userService.create(user);
   }
 
+  @ApiBody({ type: UserDto })
   @Put(':id')
   async updateAction(
     @Param('id') id: string,
-    @Body() updateDto: UpdateUserDto,
+    @Body() updateDto: UserDto,
   ): Promise<User> {
     const user = await this.userService.findOne(id);
     if (user === undefined) {
-      throw new NotFoundException(`User with such ${id} does not exist`);
+      throw new NotFoundException(`User with id(${id}) does not exist`);
     }
     user.name = updateDto.name;
     return this.userService.update(user);
