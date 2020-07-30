@@ -24,7 +24,7 @@ import { AmountCardDto } from './dto/amount.card.dto';
   },
   query: {
     join: {
-      card: {
+      user: {
         eager: true,
       },
     },
