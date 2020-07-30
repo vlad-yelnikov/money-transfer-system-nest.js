@@ -23,6 +23,11 @@ export class CardService extends TypeOrmCrudService<Card> {
       err.message = `Card with id(${id}) does not exist`;
       throw err;
     }
+    if (amount < 0) {
+      const err = new Error();
+      err.message = `Amount must not be less than 0`;
+      throw err;
+    }
     if (card.credit < amount) {
       card.debit += amount - card.credit;
       card.credit = 0;
@@ -41,6 +46,11 @@ export class CardService extends TypeOrmCrudService<Card> {
     if (!card) {
       const err = new Error();
       err.message = `Card with id(${id}) does not exist`;
+      throw err;
+    }
+    if (amount < 0) {
+      const err = new Error();
+      err.message = `Amount must not be less than 0`;
       throw err;
     }
     const notEnoughMoney = amount > card.debit + card.creditLimit - card.credit;
@@ -67,6 +77,11 @@ export class CardService extends TypeOrmCrudService<Card> {
     if (!card) {
       const err = new Error();
       err.message = `Card with id(${id}) does not exist`;
+      throw err;
+    }
+    if (amount < 0) {
+      const err = new Error();
+      err.message = `Amount must not be less than 0`;
       throw err;
     }
     card.creditLimit = amount;
