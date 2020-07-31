@@ -31,11 +31,11 @@ export class TransactionService extends TypeOrmCrudService<Transaction> {
     if (abortedTransaction.isAborted === false) {
       await getConnection().transaction(async () => {
         await this.cardService.increase(
-          abortedTransaction.receiver,
+          abortedTransaction.sender,
           abortedTransaction.amount,
         );
         await this.cardService.decrease(
-          abortedTransaction.sender,
+          abortedTransaction.receiver,
           abortedTransaction.amount,
         );
 
